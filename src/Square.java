@@ -1,3 +1,6 @@
+import javax.swing.*;
+import java.awt.*;
+
 /**
  * A class written to support the TicTacToe Game.
  *
@@ -16,6 +19,7 @@ public class Square {
     private int row;
     private int col;
     private boolean isWinningSquare;
+    private final int IMAGE_DIMENSION = 160;
 
     /**
      * Constructor to initialize one Square of the
@@ -26,7 +30,6 @@ public class Square {
     public Square(int row, int col) {
         this.row = row;
         this.col = col;
-
         this.marker = TicTacToe.BLANK;
         this.isWinningSquare = false;
     }
@@ -52,6 +55,40 @@ public class Square {
         return this.marker.equals(TicTacToe.BLANK);
     }
 
+    // Is draw method where we distinguish between X, O, and blank squares? Then prints
+    public void draw(Graphics g, TicTacToeViewer t){
+        Image[] tokens = t.getPlayerTokens();
+        int increment = t.getINCREMENT();
+        g.setColor(Color.black);
+        //if it is an x, print box + x image
+        if (this.getMarker().equals("X")){
+            g.drawRect(increment * (col + 1), increment * (row + 1), increment, increment);
+            //If winning, fill box to be green
+            // CREATE A SEPARATE METHOD FOR THIS
+            if (isWinningSquare)
+            {
+                g.setColor(Color.green);
+                g.fillRect(increment * (col + 1), increment * (row + 1), increment, increment);
+                g.setColor(Color.black);
+            }
+            g.drawImage(tokens[1], t.getINCREMENT() * (col+ 1), t.getINCREMENT() * (row + 1), IMAGE_DIMENSION, IMAGE_DIMENSION, t);
+        }
+        // if it's a y, print y image
+        else if (this.getMarker().equals("O")){
+            if (isWinningSquare)
+            {
+                g.setColor(Color.green);
+                g.fillRect(increment * (col + 1), increment * (row + 1), increment, increment);
+                g.setColor(Color.black);
+            }
+            g.drawImage(tokens[0], t.getINCREMENT() * (col + 1), t.getINCREMENT() * (row + 1), IMAGE_DIMENSION, IMAGE_DIMENSION, t);
+        }
+        //if it is empty, print empty rectangle
+        else if (isEmpty()){
+            g.drawRect(increment * (col + 1), increment * (row + 1), increment, increment);
+        }
+
+    }
     /**
      * @return the marker for the square
      */

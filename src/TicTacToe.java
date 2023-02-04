@@ -32,8 +32,10 @@ public class TicTacToe
     private int winIndex;       // Provides the index of the row/col of the win
     private int turn;
 
+    /** Other instance variables **/
     private Square[][] board;
     private boolean isGameOver;
+    private TicTacToeViewer window;
 
     /**
      * Constructor which initialized the board with BLANKs.
@@ -56,6 +58,9 @@ public class TicTacToe
         this.winner = BLANK;
         this.winIndex = -1;
         this.winDirection = -1;
+
+        // Initialize view
+        window = new TicTacToeViewer(this);
     }
 
     /******************** Methods You May Find Helpful ********************/
@@ -110,6 +115,7 @@ public class TicTacToe
         // Loop until there is a winner or no more turns
         while(!this.checkWin() && this.checkTurn()) {
             this.printBoard();
+            window.repaint();
             System.out.println("Enter your Row Pick:" );
             int row = input.nextInt();
             System.out.println("Enter your Col Pick:" );
@@ -122,6 +128,7 @@ public class TicTacToe
         }
 
         this.printBoard();
+        window.repaint();
         this.isGameOver = true;
 
         // Determine if there was a winner
